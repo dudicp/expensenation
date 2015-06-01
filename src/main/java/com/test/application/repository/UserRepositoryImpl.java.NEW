@@ -1,0 +1,82 @@
+package com.test.application.repository;
+
+import com.test.application.model.UserEntity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
+import org.springframework.stereotype.Repository;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceContextType;
+import java.util.List;
+
+@Repository("userRepository")
+public class UserRepositoryImpl implements UserRepository
+{
+    @PersistenceContext(unitName = "punit")
+    private EntityManagerFactory entityManagerFactory;
+
+    private JpaRepository<UserEntity, Long> jpaRepository;
+
+    public UserRepositoryImpl()
+    {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        jpaRepository = new SimpleJpaRepository(UserEntity.class, entityManager);
+    }
+
+    @Override
+    public UserEntity save(UserEntity userEntity)
+    {
+        return jpaRepository.save(userEntity);
+    }
+
+    @Override
+    public void delete(Long id)
+    {
+        jpaRepository.delete(id);
+    }
+
+    @Override
+    public void delete(UserEntity userEntity)
+    {
+        jpaRepository.delete(userEntity);
+    }
+
+    @Override
+    public UserEntity findOne(Long id)
+    {
+        return jpaRepository.findOne(id);
+    }
+
+    @Override
+    public boolean exists(Long id)
+    {
+        return jpaRepository.exists(id);
+    }
+
+    @Override
+    public long count()
+    {
+        return jpaRepository.count();
+    }
+
+    @Override
+    public UserEntity findByName(String userName)
+    {
+        return null;
+    }
+
+    @Override
+    public Iterable<UserEntity> findAll(Iterable<Long> ids)
+    {
+        return jpaRepository.findAll(ids);
+    }
+
+    @Override
+    public List<UserEntity> findAll()
+    {
+        return jpaRepository.findAll();
+    }
+}

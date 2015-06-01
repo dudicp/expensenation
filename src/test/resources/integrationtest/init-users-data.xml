@@ -1,0 +1,18 @@
+<dataset>
+    <user
+        id="1"
+        userName="dennisb"
+        firstName="dennis"
+        lastName="bergkamp"
+        emailAddress="dennis@gunners.com"
+        dateOfBirth="1969-05-10 00:00:00"
+    />
+    <user
+        id="2"
+        userName="robertp"
+        firstName="robert"
+        lastName="pires"
+        emailAddress="robert@gunners.com"
+        dateOfBirth="1973-10-29 00:00:00"
+    />
+</dataset>

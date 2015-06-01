@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- This application context configures the unit-testing and has the following responsibilities:
+            1.  It configures a MessageSource bean which is used by our controller class (feedback messages)
+                and Spring MVC (validation error messages).
+                The reason why we need to do this is that the MessageSource bean is configured in the “main”
+                configuration class (or file) of our application context configuration.
+            2. It creates a UserService mock which is injected to our controller class.
+    -->
+
+    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+        <property name="basename" value="i18n/messages"/>
+        <property name="useCodeAsDefaultMessage" value="true"/>
+    </bean>
+
+    <bean id="userService" name="userService" class="org.mockito.Mockito" factory-method="mock">
+        <constructor-arg value="com.test.application.service.UserService"/>
+    </bean>
+</beans>

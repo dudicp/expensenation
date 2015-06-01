@@ -1,0 +1,13 @@
+
+
+<!--
+Good setup don't need cleanup!
+Don't be afraid to leave your trace after a test;principally if you are using one database instance per developer.
+If you always put your database in a known state before a test execution, you usually don't need to clean it up..
+This simplifies your tests maintenance and reduces the overhead taken by the cleanup procedure.
+And sometimes, this is very helpful to manually verify the database state after executing a test that fails.
+-->
+
+<dataset>
+    <user/>
+</dataset>

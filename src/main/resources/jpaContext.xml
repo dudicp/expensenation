@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+
+
+	<!-- Defines JPA and Hibernate related configurations -->
+
+	<!-- indicate this is annotation driven -->
+	<context:annotation-config />
+
+	<!-- base package for the JPA repositories scan -->
+	<!-- The repository is the DAO layer for Hibernate -->
+	<jpa:repositories base-package="com.test.application.repository" />
+
+	<!-- This is necessary to process the Persistence Unit, Persistence Context annotations
+         and for injecting JPA related resources. -->
+	<bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
+
+	<!-- EntityManagerFactory configurations -->
+	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="persistenceUnitName" value="punit" /> <!-- punit defined in META-INF/persistence.xml -->
+		<property name="dataSource" ref="dataSource" /> <!-- datasource defined below -->
+		<property name="jpaVendorAdapter">
+			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+				<property name="showSql" value="true" />
+			</bean>
+		</property>
+		<property name="jpaPropertyMap">
+			<map>
+				<entry key="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect" />
+				<!--<entry key="hibernate.hbm2ddl.auto" value="validate" />-->
+				<entry key="hibernate.hbm2ddl.auto" value="create" />
+				<entry key="hibernate.format_sql" value="true" />
+			</map>
+		</property>
+	</bean>
+
+	<!-- Transaction Manager Configurations -->
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="entityManagerFactory" />
+	</bean>
+	
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
+
+	<!-- DataSource Configurations -->
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://127.0.0.1:3306/testApplication?autoReconnect=true&amp;createDatabaseIfNotExist=true&amp;" />
+		<property name="username" value="test" />
+		<property name="password" value="test123" />
+	</bean>
+</beans>
